@@ -7,6 +7,8 @@ One command to install. Countless chains to explore. Pure vibes.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen)](https://nodejs.org/)
 
+> 🌱 **Complete Beginner?** Never coded before? Start here: [Absolute Beginner's Quick Start Guide](docs/absolute-beginner-quickstart.md)
+
 ---
 
 ## 🌟 What is This?
@@ -130,6 +132,7 @@ You'll need test tokens to run the examples:
 
 ## 📖 Documentation
 
+- [🌱 Absolute Beginner's Quick Start](docs/absolute-beginner-quickstart.md) - Never coded before? Start here!
 - [Getting Started Guide](docs/getting-started.md) - Detailed walkthrough
 - [Troubleshooting](docs/troubleshooting.md) - Common issues and solutions
 - [Demos SDK API Docs](https://docs.demos.sh/sdk) - Official SDK documentation
