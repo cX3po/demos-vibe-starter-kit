@@ -1,0 +1,49 @@
+{
+  "name": "demos-vibe-starter-kit",
+  "version": "1.0.0",
+  "description": "The ultimate beginner-friendly starter kit for vibe coding on the Demos Network (Omniweb). One command to install, countless chains to explore!",
+  "main": "launcher.js",
+  "scripts": {
+    "start": "node launcher.js",
+    "setup": "node setup-wizard.js",
+    "health": "node utils/health-check.js",
+    "validate": "node utils/config-validator.js",
+    "hello": "node examples/01-hello-demos.js",
+    "xrp": "node examples/02-xrp-transaction.js",
+    "eth": "node examples/03-ethereum-transaction.js",
+    "sol": "node examples/04-solana-transaction.js",
+    "btc": "node examples/05-bitcoin-transaction.js",
+    "multi": "node examples/06-multi-chain-demo.js",
+    "postinstall": "node setup-wizard.js"
+  },
+  "keywords": [
+    "demos",
+    "omniweb",
+    "blockchain",
+    "web3",
+    "starter-kit",
+    "xrp",
+    "ethereum",
+    "solana",
+    "bitcoin",
+    "multi-chain"
+  ],
+  "author": "Demos Community",
+  "license": "MIT",
+  "dependencies": {
+    "@kynesyslabs/demosdk": "^2.0.4",
+    "dotenv": "^16.4.7",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.5",
+    "ora": "^5.4.1",
+    "boxen": "^5.1.2",
+    "cli-table3": "^0.6.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/demos-community/demos-vibe-starter-kit"
+  }
+}

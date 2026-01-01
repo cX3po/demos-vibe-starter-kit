@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "demos-vibe-starter-kit": {
+      "command": "node",
+      "args": ["${DEMOS_VIBE_KIT_PATH}/launcher.js"],
+      "env": {
+        "DEMOS_RPC_URL": "${DEMOS_RPC_URL}",
+        "NODE_ENV": "production"
+      },
+      "description": "Demos Vibe Starter Kit - Multi-chain blockchain development examples and tools"
+    }
+  },
+  "configuration": {
+    "note": "Replace ${DEMOS_VIBE_KIT_PATH} with the full path to your demos-vibe-starter-kit directory",
+    "example": "/Users/username/demos-vibe-starter-kit or C:/Users/username/demos-vibe-starter-kit",
+    "setup_instructions": "See mcp/setup-guide.md for detailed setup instructions"
+  }
+}
