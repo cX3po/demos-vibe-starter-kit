@@ -43,7 +43,7 @@ Demos Vibe Starter Kit is a complete, batteries-included package that gets you c
 
 ```bash
 # Clone the repository
-git clone https://github.com/demos-community/demos-vibe-starter-kit.git
+git clone https://github.com/cX3po/demos-vibe-starter-kit.git
 cd demos-vibe-starter-kit
 
 # Install dependencies
