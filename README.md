@@ -33,13 +33,42 @@ Demos Vibe Starter Kit is a complete, batteries-included package that gets you c
 
 ## 🚀 Quick Start
 
-### Prerequisites
+**Want to get vibe coding in ONE command?** Use the new quickstart! ⚡
 
+```bash
+# Clone the repository
+git clone https://github.com/cX3po/demos-vibe-starter-kit.git
+cd demos-vibe-starter-kit
+
+# Install and auto-configure EVERYTHING
+npm install
+npm run quickstart
+
+# Restart Claude Code and start vibe coding!
+```
+
+That's it! The quickstart automatically:
+- ✅ Generates DemoSDK API documentation
+- ✅ Configures Claude Code MCP servers
+- ✅ Sets up your complete development environment
+
+**Using Claude Code?** You'll now have access to:
+- 🤖 "Connect to Demos Network" - Blockchain operations through AI
+- 📚 "Search Demos SDK docs" - Instant access to API documentation
+- 🔧 Full AI-powered development workflow
+
+---
+
+### Alternative: Manual Setup
+
+If you prefer step-by-step setup or don't use Claude Code:
+
+**Prerequisites:**
 - Node.js v16 or higher ([Download](https://nodejs.org/))
 - Git (for cloning)
 - Basic command line knowledge
 
-### Installation
+**Installation:**
 
 ```bash
 # Clone the repository
@@ -49,14 +78,14 @@ cd demos-vibe-starter-kit
 # Install dependencies
 npm install
 
-# Run the interactive setup wizard
+# Run the interactive setup wizard (for blockchain credentials)
 npm run setup
 
 # Start vibe coding!
 npm start
 ```
 
-That's it! The setup wizard will guide you through everything.
+The setup wizard will guide you through configuring blockchain credentials.
 
 ## 📚 What's Included
 
@@ -71,10 +100,13 @@ That's it! The setup wizard will guide you through everything.
 
 ### Utilities
 
+- `npm run quickstart` - **NEW!** One-command setup with MCP integration
 - `npm start` - Interactive launcher menu
-- `npm run setup` - Configuration wizard
+- `npm run setup` - Configuration wizard (blockchain credentials)
 - `npm run validate` - Validate your configuration
 - `npm run health` - Run health checks
+- `npm run update-docs` - Regenerate DemoSDK documentation
+- `npm run test-mcp` - Test MCP server configuration
 
 ## 🎯 Usage
 

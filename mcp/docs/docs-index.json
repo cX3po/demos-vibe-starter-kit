@@ -1,0 +1,1761 @@
+{
+  "classes": [],
+  "interfaces": [
+    {
+      "type": "interface",
+      "name": "SolanaRecordResult",
+      "fullName": "SolanaRecordResult",
+      "description": "Interface SolanaRecordResult",
+      "properties": [],
+      "content": "\n    /** The record key that was queried */\n    key: string;\n    /** The resolved value, or null if not found */\n    value: string | null;\n    /** Whether the record was successfully found */\n    found: boolean;\n    /** Error message if resolution failed */\n    error?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SolanaDomainResolution",
+      "fullName": "SolanaDomainResolution",
+      "description": "Interface SolanaDomainResolution",
+      "properties": [],
+      "content": "\n    /** The full domain name (label.tld) */\n    domain: string;\n    /** Whether the domain exists on-chain */\n    exists: boolean;\n    /** The derived SLD PDA address */\n    sldPda: string;\n    /** Domain properties PDA address */\n    domainPropertiesPda?: string;\n    /** Records version from domain properties */\n    recordsVersion?: number;\n    /** Array of record resolution results */\n    records: SolanaRecordResult[];\n    /** Any error that occurred during resolution */\n    error?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "EVMDomainResolution",
+      "fullName": "EVMDomainResolution",
+      "description": "Interface EVMDomainResolution",
+      "properties": [],
+      "content": "\n    /** The full domain name */\n    domain: string;\n    /** Network where domain was found */\n    network: \"polygon\" | \"ethereum\" | \"base\" | \"sonic\";\n    /** Token ID (namehash of domain) */\n    tokenId: string;\n    /** Domain owner address */\n    owner: string;\n    /** Resolver contract address */\n    resolver: string;\n    /** Record key-value pairs (null if not found) */\n    records: Record<string, string | null>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SignableAddress",
+      "fullName": "SignableAddress",
+      "description": "Interface SignableAddress",
+      "properties": [],
+      "content": "\n    /** The blockchain address */\n    address: string;\n    /** Record key this address came from */\n    recordKey: string;\n    /** Signature type (evm or solana) */\n    signatureType: SignatureType;\n"
+    },
+    {
+      "type": "interface",
+      "name": "UnifiedDomainResolution",
+      "fullName": "UnifiedDomainResolution",
+      "description": "Interface UnifiedDomainResolution",
+      "properties": [],
+      "content": "\n    /** The full domain name */\n    domain: string;\n    /** Network where domain was found */\n    network: UDNetwork;\n    /** Registry type */\n    registryType: UDRegistryType;\n    /** Array of addresses that can sign challenges */\n    authorizedAddresses: SignableAddress[];\n    /** Additional metadata (chain-specific) */\n    metadata?: {\n        /** EVM-specific data */\n        evm?: {\n            tokenId: string;\n            owner: string;\n            resolver: string;\n        "
+    },
+    {
+      "type": "interface",
+      "name": "UDIdentityAssignPayload",
+      "fullName": "UDIdentityAssignPayload",
+      "description": "Interface UDIdentityAssignPayload",
+      "properties": [],
+      "content": "\n    type: \"ud\";\n    payload: {\n        /** The UD domain being linked */\n        domain: string;\n        /** The address that signed the challenge */\n        signingAddress: string;\n        /** Type of signature (auto-detected from address) */\n        signatureType: SignatureType;\n        /** Signature of the challenge */\n        signature: string;\n        /** Challenge message that was signed */\n        signedData: string;\n        /** Public key (for Solana verification) */\n        publicKey: string;\n        /** Network where domain is registered */\n        network: UDNetwork;\n        /** Registry type */\n        registryType: UDRegistryType;\n        /** Timestamp of signing */\n        timestamp: number;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "UDResolutionConfig",
+      "fullName": "UDResolutionConfig",
+      "description": "Interface UDResolutionConfig",
+      "properties": [],
+      "content": "\n    /** Solana RPC URL (optional) */\n    solanaRpcUrl?: string;\n    /** Ethereum RPC URL (optional) */\n    ethereumRpcUrl?: string;\n    /** Polygon RPC URL (optional) */\n    polygonRpcUrl?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "AddressTypeInfo",
+      "fullName": "AddressTypeInfo",
+      "description": "Interface AddressTypeInfo",
+      "properties": [],
+      "content": "\n    address: string;\n    type: SignatureType | null;\n    isSignable: boolean;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TemplateInfo",
+      "fullName": "TemplateInfo",
+      "description": "Interface TemplateInfo",
+      "properties": [],
+      "content": "\n    name: string;\n    schema: TemplateSchema;\n    sourceFile: string;\n    source?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SubstitutionResult",
+      "fullName": "SubstitutionResult",
+      "description": "Interface SubstitutionResult",
+      "properties": [],
+      "content": "\n    success: boolean;\n    source?: string;\n    errors: string[];\n    warnings: string[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "TemplateParameter",
+      "fullName": "TemplateParameter",
+      "description": "Interface TemplateParameter",
+      "properties": [],
+      "content": "\n    name: string;\n    type: 'string' | 'number' | 'boolean' | 'address';\n    required: boolean;\n    default?: any;\n    min?: number;\n    max?: number;\n    pattern?: RegExp;\n    description: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TemplateSchema",
+      "fullName": "TemplateSchema",
+      "description": "Interface TemplateSchema",
+      "properties": [],
+      "content": "\n    name: string;\n    description: string;\n    parameters: TemplateParameter[];\n    version: string;\n    author?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ValidationResult",
+      "fullName": "ValidationResult",
+      "description": "Interface ValidationResult",
+      "properties": [],
+      "content": "\n    valid: boolean;\n    errors: string[];\n    warnings: string[];\n    processedParams: Record<string, any>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ABIParameter",
+      "fullName": "ABIParameter",
+      "description": "Interface ABIParameter",
+      "properties": [],
+      "content": "\n    name: string;\n    type: 'string' | 'number' | 'boolean' | 'object' | 'array' | 'any';\n    description?: string;\n    optional?: boolean;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ABIFunction",
+      "fullName": "ABIFunction",
+      "description": "Interface ABIFunction",
+      "properties": [],
+      "content": "\n    name: string;\n    parameters: ABIParameter[];\n    returns?: {\n        type: string;\n        description?: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "ABIEvent",
+      "fullName": "ABIEvent",
+      "description": "Interface ABIEvent",
+      "properties": [],
+      "content": "\n    name: string;\n    parameters: ABIParameter[];\n    description?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ContractABI",
+      "fullName": "ContractABI",
+      "description": "Interface ContractABI",
+      "properties": [],
+      "content": "\n    contractName: string;\n    version?: string;\n    description?: string;\n    constructor?: {\n        parameters: ABIParameter[];\n        description?: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "ContractMetadata",
+      "fullName": "ContractMetadata",
+      "description": "Interface ContractMetadata",
+      "properties": [],
+      "content": "\n    name?: string;\n    description?: string;\n    version?: string;\n    abi?: ContractABI;\n    author?: string;\n    license?: string;\n    tags?: string[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "ContractDeploymentResult",
+      "fullName": "ContractDeploymentResult",
+      "description": "Interface ContractDeploymentResult",
+      "properties": [],
+      "content": "\n    success: boolean;\n    contractAddress?: string;\n    deploymentTx?: string;\n    gasUsed?: bigint;\n    error?: string;\n    blockHeight?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ContractCallOptions",
+      "fullName": "ContractCallOptions",
+      "description": "Interface ContractCallOptions",
+      "properties": [],
+      "content": "\n    value?: bigint | number;\n    gasLimit?: bigint | number;\n    nonce?: number;\n    waitForConfirmation?: boolean;\n    confirmations?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TypedContract",
+      "fullName": "TypedContract",
+      "description": "Interface TypedContract",
+      "properties": [],
+      "content": "\n    address: string;\n    call<T = any>(method: string, args: any[], options?: ContractCallOptions): Promise<ContractCallResult<T>>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "D402PaymentRequirement",
+      "fullName": "D402PaymentRequirement",
+      "description": "Interface D402PaymentRequirement",
+      "properties": [],
+      "content": "\n    /** Payment amount in smallest unit */\n    amount: number;\n    /** Merchant/recipient address */\n    recipient: string;\n    /** Resource identifier */\n    resourceId: string;\n    /** Optional description */\n    description?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "D402SettlementResult",
+      "fullName": "D402SettlementResult",
+      "description": "Interface D402SettlementResult",
+      "properties": [],
+      "content": "\n    /** Whether settlement succeeded */\n    success: boolean;\n    /** Transaction hash (payment proof) */\n    hash: string;\n    /** Block number (if settled) */\n    blockNumber?: number;\n    /** Error message (if failed) */\n    message?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "D402MiddlewareOptions",
+      "fullName": "D402MiddlewareOptions",
+      "description": "Interface D402MiddlewareOptions",
+      "properties": [],
+      "content": "\n    /** Payment amount in smallest unit */\n    amount: number;\n    /** Resource identifier (included in memo validation) */\n    resourceId: string;\n    /** Demos Network RPC URL */\n    rpcUrl: string;\n    /** Merchant/recipient address (if not provided, must be in req.d402Recipient) */\n    recipient?: string;\n    /** Optional payment description */\n    description?: string;\n    /** Payment cache TTL in seconds (default: 300) */\n    cacheTTL?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "D402Request",
+      "fullName": "D402Request",
+      "description": "Interface D402Request",
+      "properties": [],
+      "content": "\n    /** Merchant address (can be set dynamically per request) */\n    d402Recipient?: string;\n    /** Verified payment details (available after middleware passes) */\n    d402Payment?: {\n        from: string;\n        to: string;\n        amount: number;\n        txHash: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "D402PaymentRequirement",
+      "fullName": "D402PaymentRequirement",
+      "description": "Interface D402PaymentRequirement",
+      "properties": [],
+      "content": "\n    /** Payment amount in smallest unit */\n    amount: number;\n    /** Merchant/recipient address */\n    recipient: string;\n    /** Resource identifier (used in memo validation) */\n    resourceId: string;\n    /** Optional payment description */\n    description?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "D402VerificationResult",
+      "fullName": "D402VerificationResult",
+      "description": "Interface D402VerificationResult",
+      "properties": [],
+      "content": "\n    valid: boolean;\n    verified_from?: string;\n    verified_to?: string;\n    verified_amount?: number;\n    verified_memo?: string;\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "D402ServerConfig",
+      "fullName": "D402ServerConfig",
+      "description": "Interface D402ServerConfig",
+      "properties": [],
+      "content": "\n    /** Demos Network RPC URL */\n    rpcUrl: string;\n    /** Payment cache TTL in seconds (default: 300 = 5 minutes) */\n    cacheTTL?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "CachedPayment",
+      "fullName": "CachedPayment",
+      "description": "Interface CachedPayment",
+      "properties": [],
+      "content": "\n    txHash: string;\n    from: string;\n    to: string;\n    amount: number;\n    memo: string;\n    timestamp: number;\n    expiresAt: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "FalconKeypair",
+      "fullName": "FalconKeypair",
+      "description": "Interface FalconKeypair",
+      "properties": [],
+      "content": "\n    genkeySeed: Uint8Array;\n    sk: Uint8Array;\n    pk: Uint8Array;\n"
+    },
+    {
+      "type": "interface",
+      "name": "encryptedObject",
+      "fullName": "encryptedObject",
+      "description": "Interface encryptedObject",
+      "properties": [],
+      "content": "\n    algorithm: \"ml-kem-aes\" | \"rsa\";\n    encryptedData: Uint8Array;\n    cipherText?: Uint8Array;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SerializedEncryptedObject",
+      "fullName": "SerializedEncryptedObject",
+      "description": "Interface SerializedEncryptedObject",
+      "properties": [],
+      "content": "\n    algorithm: \"ml-kem-aes\" | \"rsa\";\n    serializedEncryptedData: string;\n    serializedCipherText?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SerializedSignedObject",
+      "fullName": "SerializedSignedObject",
+      "description": "Interface SerializedSignedObject",
+      "properties": [],
+      "content": "\n    algorithm: \"ml-dsa\" | \"falcon\" | \"ed25519\";\n    serializedSignedData: string;\n    serializedPublicKey: string;\n    serializedMessage: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "Ed25519SignedObject",
+      "fullName": "Ed25519SignedObject",
+      "description": "Interface Ed25519SignedObject",
+      "properties": [],
+      "content": "\n    algorithm: \"ed25519\";\n    signature: Uint8Array;\n    publicKey: forge.pki.ed25519.NativeBuffer;\n    message: Uint8Array;\n"
+    },
+    {
+      "type": "interface",
+      "name": "PqcSignedObject",
+      "fullName": "PqcSignedObject",
+      "description": "Interface PqcSignedObject",
+      "properties": [],
+      "content": "\n    algorithm: \"ml-dsa\" | \"falcon\";\n    signature: Uint8Array;\n    publicKey: Uint8Array;\n    message: Uint8Array;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ZKProof",
+      "fullName": "ZKProof",
+      "description": "Interface ZKProof",
+      "properties": [],
+      "content": "\n    pi_a: string[];\n    pi_b: string[][];\n    pi_c: string[];\n    protocol: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ProofGenerationResult",
+      "fullName": "ProofGenerationResult",
+      "description": "Interface ProofGenerationResult",
+      "properties": [],
+      "content": "\n    proof: ZKProof;\n    publicSignals: string[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "MerkleProof",
+      "fullName": "MerkleProof",
+      "description": "Interface MerkleProof",
+      "properties": [],
+      "content": "\n    siblings: string[][];\n    pathIndices: number[];\n    root: string;\n    leaf: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IdentityCommitmentPayload",
+      "fullName": "IdentityCommitmentPayload",
+      "description": "Interface IdentityCommitmentPayload",
+      "properties": [],
+      "content": "\n    commitment_hash: string;\n    provider: string;\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IdentityAttestationPayload",
+      "fullName": "IdentityAttestationPayload",
+      "description": "Interface IdentityAttestationPayload",
+      "properties": [],
+      "content": "\n    nullifier_hash: string;\n    merkle_root: string;\n    proof: ProofGenerator.ZKProof;\n    public_signals: string[];\n    provider: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "EscrowBalance",
+      "fullName": "EscrowBalance",
+      "description": "Interface EscrowBalance",
+      "properties": [],
+      "content": "\n    escrowAddress: string;\n    exists: boolean;\n    balance: string;\n    deposits: Array<{\n        from: string;\n        amount: string;\n        timestamp: number;\n        message?: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "ClaimableEscrow",
+      "fullName": "ClaimableEscrow",
+      "description": "Interface ClaimableEscrow",
+      "properties": [],
+      "content": "\n    platform: \"twitter\" | \"github\" | \"telegram\";\n    username: string;\n    balance: string;\n    escrowAddress: string;\n    deposits: Array<{\n        from: string;\n        amount: string;\n        timestamp: number;\n        message?: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "SentEscrow",
+      "fullName": "SentEscrow",
+      "description": "Interface SentEscrow",
+      "properties": [],
+      "content": "\n    platform: \"twitter\" | \"github\" | \"telegram\";\n    username: string;\n    escrowAddress: string;\n    totalSent: string;\n    deposits: Array<{\n        amount: string;\n        timestamp: number;\n        message?: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "MessagingPeerConfig",
+      "fullName": "MessagingPeerConfig",
+      "description": "Interface MessagingPeerConfig",
+      "properties": [],
+      "content": "\n    serverUrl: string;\n    clientId: string;\n    publicKey: Uint8Array;\n"
+    },
+    {
+      "type": "interface",
+      "name": "Message",
+      "fullName": "Message",
+      "description": "Interface Message",
+      "properties": [],
+      "content": "\n    type: \"register\" | \"discover\" | \"message\" | \"peer_disconnected\" | \"request_public_key\" | \"public_key_response\" | \"server_question\" | \"peer_response\" | \"debug_question\" | \"error\";\n    payload: any;\n"
+    },
+    {
+      "type": "interface",
+      "name": "AddOptions",
+      "fullName": "AddOptions",
+      "description": "Interface AddOptions",
+      "properties": [],
+      "content": "\n    /** Optional filename for the content */\n    filename?: string;\n    /** Optional metadata to associate with the pin */\n    metadata?: Record<string, unknown>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "PinOptions",
+      "fullName": "PinOptions",
+      "description": "Interface PinOptions",
+      "properties": [],
+      "content": "\n    /** Duration in blocks (0 = indefinite) */\n    duration?: number;\n    /** Optional metadata to associate with the pin */\n    metadata?: Record<string, unknown>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPFSStatusResponse",
+      "fullName": "IPFSStatusResponse",
+      "description": "Interface IPFSStatusResponse",
+      "properties": [],
+      "content": "\n    healthy: boolean;\n    peerId?: string;\n    peerCount?: number;\n    timestamp: number;\n    error?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPFSAddResponse",
+      "fullName": "IPFSAddResponse",
+      "description": "Interface IPFSAddResponse",
+      "properties": [],
+      "content": "\n    success: boolean;\n    cid?: string;\n    size?: number;\n    error?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPFSGetResponse",
+      "fullName": "IPFSGetResponse",
+      "description": "Interface IPFSGetResponse",
+      "properties": [],
+      "content": "\n    success: boolean;\n    cid: string;\n    content?: string;\n    size?: number;\n    base64: boolean;\n    error?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "PinInfo",
+      "fullName": "PinInfo",
+      "description": "Interface PinInfo",
+      "properties": [],
+      "content": "\n    cid: string;\n    size: number;\n    timestamp: number;\n    expiresAt?: number;\n    metadata?: Record<string, unknown>;\n    wasFree?: boolean;\n    freeBytes?: number;\n    costPaid?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPFSPinsResponse",
+      "fullName": "IPFSPinsResponse",
+      "description": "Interface IPFSPinsResponse",
+      "properties": [],
+      "content": "\n    success: boolean;\n    address: string;\n    pins: PinInfo[];\n    count: number;\n    totalPinnedBytes: number;\n    earnedRewards: string;\n    paidCosts: string;\n    error?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "WalletBinding",
+      "fullName": "WalletBinding",
+      "description": "Interface WalletBinding",
+      "properties": [],
+      "content": "\n    /** The wallet address to bind to this OAuth verification */\n    address: string;\n    /**\n     * Signature proving ownership of the wallet address.\n     * The message signed should be: \"demos-oauth-bind:{state"
+    },
+    {
+      "type": "interface",
+      "name": "OAuthInitOptions",
+      "fullName": "OAuthInitOptions",
+      "description": "Interface OAuthInitOptions",
+      "properties": [],
+      "content": "\n    /** Custom scopes to request (defaults to identity scopes) */\n    scopes?: string[];\n    /** Flow timeout in milliseconds (default: 600000 = 10min) */\n    timeout?: number;\n    /**\n     * Wallet address to associate with this OAuth verification.\n     * This address will be included in the DAHR attestation metadata.\n     * Overrides defaultWalletAddress from KeyServerClientConfig if both are set.\n     * @deprecated Use walletBinding for signed wallet proof instead\n     */\n    walletAddress?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "OAuthInitResult",
+      "fullName": "OAuthInitResult",
+      "description": "Interface OAuthInitResult",
+      "properties": [],
+      "content": "\n    /** Whether the initiation was successful */\n    success: boolean;\n    /** URL for user to visit to authorize */\n    authUrl: string;\n    /** State identifier for polling */\n    state: string;\n    /** Unix timestamp when this flow expires */\n    expiresAt: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "OAuthUserInfo",
+      "fullName": "OAuthUserInfo",
+      "description": "Interface OAuthUserInfo",
+      "properties": [],
+      "content": "\n    /** OAuth provider */\n    service: OAuthService;\n    /** Provider's user ID */\n    providerId: string;\n    /** Provider's username */\n    username: string;\n    /** User email (if email scope was requested) */\n    email?: string;\n    /** User avatar URL */\n    avatarUrl?: string;\n    /** Unix timestamp when verification completed */\n    verifiedAt: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "DAHRAttestation",
+      "fullName": "DAHRAttestation",
+      "description": "Interface DAHRAttestation",
+      "properties": [],
+      "content": "\n    /** SHA256 hash of the request payload */\n    requestHash: string;\n    /** SHA256 hash of the response payload */\n    responseHash: string;\n    /** Ed25519 signature over responseHash */\n    signature: {\n        type: \"Ed25519\";\n        data: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "OAuthPollResult",
+      "fullName": "OAuthPollResult",
+      "description": "Interface OAuthPollResult",
+      "properties": [],
+      "content": "\n    /** Whether the request was successful */\n    success: boolean;\n    /** Current status of the OAuth flow */\n    status: OAuthStatus;\n    /** User info (only present when status is \"completed\") */\n    result?: OAuthUserInfo;\n    /** DAHR attestation (only present when status is \"completed\") */\n    attestation?: DAHRAttestation;\n    /** Error details (only present when status is \"failed\" or \"expired\") */\n    error?: {\n        code: string;\n        message: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "OAuthVerificationResult",
+      "fullName": "OAuthVerificationResult",
+      "description": "Interface OAuthVerificationResult",
+      "properties": [],
+      "content": "\n    /** Whether verification was successful */\n    success: boolean;\n    /** Verified user information */\n    user: OAuthUserInfo;\n    /** DAHR attestation proving the verification */\n    attestation: DAHRAttestation;\n"
+    },
+    {
+      "type": "interface",
+      "name": "KeyServerClientConfig",
+      "fullName": "KeyServerClientConfig",
+      "description": "Interface KeyServerClientConfig",
+      "properties": [],
+      "content": "\n    /** Key Server endpoint URL */\n    endpoint: string;\n    /** Node's public key (hex-encoded Ed25519) */\n    nodePubKey: string;\n    /**\n     * Default wallet address to associate with OAuth verifications.\n     * Can be overridden per-request via OAuthInitOptions.walletAddress.\n     */\n    defaultWalletAddress?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "OAuthProvidersResponse",
+      "fullName": "OAuthProvidersResponse",
+      "description": "Interface OAuthProvidersResponse",
+      "properties": [],
+      "content": "\n    success: boolean;\n    providers?: OAuthService[];\n    error?: {\n        code: string;\n        message: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "VerifyAttestationOptions",
+      "fullName": "VerifyAttestationOptions",
+      "description": "Interface VerifyAttestationOptions",
+      "properties": [],
+      "content": "\n    /**\n     * Maximum age of attestation in milliseconds (default: 1 hour)\n     * Set to 0 to disable timestamp validation\n     */\n    maxAge?: number;\n    /**\n     * Expected node public key (optional additional validation)\n     */\n    expectedNodePubKey?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "AttestationVerificationResult",
+      "fullName": "AttestationVerificationResult",
+      "description": "Interface AttestationVerificationResult",
+      "properties": [],
+      "content": "\n    /** Whether the attestation is valid */\n    valid: boolean;\n    /** Reason for failure (if invalid) */\n    reason?: string;\n    /** Attestation metadata for logging/auditing */\n    metadata?: {\n        sessionId: string;\n        timestamp: number;\n        keyServerPubKey: string;\n        nodePubKey: string;\n        version: string;\n        /** Wallet binding if present in attestation */\n        walletBinding?: WalletBinding;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "L2PSConfig",
+      "fullName": "L2PSConfig",
+      "description": "Interface L2PSConfig",
+      "properties": [],
+      "content": "\n    /** Unique identifier for the L2PS network */\n    uid: string;\n    /** Network configuration parameters */\n    config: {\n        /** Block number when this L2PS was created */\n        created_at_block: number;\n        /** List of known RPC endpoints for this L2PS network */\n        known_rpcs: string[];\n    "
+    },
+    {
+      "type": "interface",
+      "name": "L2PSEncryptedPayload",
+      "fullName": "L2PSEncryptedPayload",
+      "description": "Interface L2PSEncryptedPayload",
+      "properties": [],
+      "content": "\n    /** UID of the L2PS network that encrypted this transaction */\n    l2ps_uid: string;\n    /** Base64-encoded encrypted transaction data */\n    encrypted_data: string;\n    /** Base64-encoded AES-GCM authentication tag */\n    tag: string;\n    /** Hash of the original transaction for integrity verification */\n    original_hash: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IEVMDefaultChain",
+      "fullName": "IEVMDefaultChain",
+      "description": "Interface IEVMDefaultChain",
+      "properties": [],
+      "content": "\n    contracts: Map<string, Contract>;\n    isEIP1559: boolean;\n    chainId: number;\n    prepareBaseTxWithType: () => Promise<any>;\n    getContractInstance: (address: string, abi: string) => Promise<Contract>;\n    createRawTransaction: (tx_data: any) => Promise<any>;\n    readFromContract: (contract: any, method: string, args: any) => Promise<any>;\n    writeToContract: (contract: any, method: string, args: any) => Promise<any>;\n    listenForEvent: (contract: string, abi: Interface | InterfaceAbi, event: string, timeout: number) => Promise<any>;\n    listenForAllEvents: (contract: string, abi: Interface | InterfaceAbi, callback: (...args: any[]) => void) => () => void;\n    waitForReceipt: (tx_hash: string) => Promise<TransactionReceipt>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPayParams",
+      "fullName": "IPayParams",
+      "description": "Interface IPayParams",
+      "properties": [],
+      "content": "\n    address: string;\n    amount: number | string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "XmTransactionResponse",
+      "fullName": "XmTransactionResponse",
+      "description": "Interface XmTransactionResponse",
+      "properties": [],
+      "content": "\n    /**\n     * Whether the transaction was successful or not\n     */\n    result: XmTransactionResult;\n    /**\n     * The hash of the transaction if the tx was successful\n     */\n    hash?: string;\n    /**\n     * The error object if the tx failed\n     */\n    error?: any;\n    /**\n     * The chain where the transaction was executed\n     */\n    chain?: string;\n    /**\n     * Extra optional data about the transaction extracted from the response.\n     * Currently available for XRPL transactions\n     */\n    extra?: {\n        [key: string]: any;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "EGLDSignTxOptions",
+      "fullName": "EGLDSignTxOptions",
+      "description": "Interface EGLDSignTxOptions",
+      "properties": [],
+      "content": "\n    /**\n     * The private key to override the connected wallet\n     */\n    privateKey: string;\n    /**\n     * The password of the override wallet\n     */\n    password: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IBCTransaction",
+      "fullName": "IBCTransaction",
+      "description": "Interface IBCTransaction",
+      "properties": [],
+      "content": "\n    signerAddress: string;\n    messages: MsgSendEncodeObject[];\n    fee: StdFee | null;\n    memo: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IBCConnectWalletOptions",
+      "fullName": "IBCConnectWalletOptions",
+      "description": "Interface IBCConnectWalletOptions",
+      "properties": [],
+      "content": "\n    /**\n     * The address prefix\n     */\n    prefix: string;\n    /**\n     * The the price of a single unit of gas. This is typically a fraction of the smallest fee token unit, such as 0.012utoken\n     */\n    gasPrice: string;\n    /**\n     * The multiplier to apply to the estimated gas price. Used to make sure transactions do not run out of gas.\n     *\n     * @default 2.0\n     */\n    multiplier?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IBCGetBalanceOptions",
+      "fullName": "IBCGetBalanceOptions",
+      "description": "Interface IBCGetBalanceOptions",
+      "properties": [],
+      "content": "\n    /**\n     * The denomination of the token\n     */\n    denom: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SolanaSignTxOptions",
+      "fullName": "SolanaSignTxOptions",
+      "description": "Interface SolanaSignTxOptions",
+      "properties": [],
+      "content": "\n    /**\n     * The private key to sign the transaction with, instead of the connected wallet.\n     */\n    privateKey?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SolanarunProgramParams",
+      "fullName": "SolanarunProgramParams",
+      "description": "Interface SolanarunProgramParams",
+      "properties": [],
+      "content": "\n    /**\n     * The IDL of the program to call. If not provided, the IDL will be fetched from the network.\n     */\n    idl?: Idl | {\n        [key: string]: any;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "SolanaReadAccountDataOptions",
+      "fullName": "SolanaReadAccountDataOptions",
+      "description": "Interface SolanaReadAccountDataOptions",
+      "properties": [],
+      "content": "\n    /**\n     * The IDL of the program to read from. If not provided, the IDL will be fetched from the network.\n     */\n    idl?: Idl | {\n        [key: string]: any;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "SolanaRunRawProgramParams",
+      "fullName": "SolanaRunRawProgramParams",
+      "description": "Interface SolanaRunRawProgramParams",
+      "properties": [],
+      "content": "\n    /**\n     * The instruction to call.\n     */\n    instructionName: string;\n    /**\n     * The index of the instruction on the program definition\n     */\n    instructionIndex: number;\n    /**\n     * The accounts required for this instruction\n     */\n    keys?: {\n        pubkey: PublicKey;\n        isSigner: boolean;\n        isWritable: boolean;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "PhantomProvider",
+      "fullName": "PhantomProvider",
+      "description": "Interface PhantomProvider",
+      "properties": [],
+      "content": "\n    publicKey: PublicKey | null;\n    isConnected: boolean | null;\n    signAndSendTransaction: (transaction: Transaction, opts?: SendOptions) => Promise<{\n        signature: string;\n        publicKey: PublicKey;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "XMCoreTargetIdentityPayload",
+      "fullName": "XMCoreTargetIdentityPayload",
+      "description": "Interface XMCoreTargetIdentityPayload",
+      "properties": [],
+      "content": "\n    chain: string;\n    subchain: string;\n    targetAddress: string;\n    isEVM: boolean;\n"
+    },
+    {
+      "type": "interface",
+      "name": "InferFromWritePayload",
+      "fullName": "InferFromWritePayload",
+      "description": "Interface InferFromWritePayload",
+      "properties": [],
+      "content": "\n    method: \"identity_assign_from_write\";\n    /**\n     * The identity of the target address to bind to the Demos identity\n     */\n    target_identity: InferFromWriteTargetIdentityPayload;\n    referralCode?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "InferFromSignaturePayload",
+      "fullName": "InferFromSignaturePayload",
+      "description": "Interface InferFromSignaturePayload",
+      "properties": [],
+      "content": "\n    method: \"identity_assign_from_signature\";\n    /**\n     * The identity of the target address to bind to the Demos identity\n     */\n    target_identity: InferFromSignatureTargetIdentityPayload;\n    referralCode?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "BaseXmIdentityPayload",
+      "fullName": "BaseXmIdentityPayload",
+      "description": "Interface BaseXmIdentityPayload",
+      "properties": [],
+      "content": "\n    context: \"xm\";\n"
+    },
+    {
+      "type": "interface",
+      "name": "Web2CoreTargetIdentityPayload",
+      "fullName": "Web2CoreTargetIdentityPayload",
+      "description": "Interface Web2CoreTargetIdentityPayload",
+      "properties": [],
+      "content": "\n    context: string;\n    proof: string | TelegramProof;\n    username: string;\n    userId: string;\n    referralCode?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TelegramAttestationPayload",
+      "fullName": "TelegramAttestationPayload",
+      "description": "Interface TelegramAttestationPayload",
+      "properties": [],
+      "content": "\n    telegram_user_id: string;\n    challenge: string;\n    signature: string;\n    username: string;\n    public_key: string;\n    timestamp: number;\n    bot_address: string;\n    group_membership: boolean;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TelegramSignedAttestation",
+      "fullName": "TelegramSignedAttestation",
+      "description": "Interface TelegramSignedAttestation",
+      "properties": [],
+      "content": "\n    payload: TelegramAttestationPayload;\n    signature: {\n        type: SigningAlgorithm;\n        data: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "BaseWeb2IdentityPayload",
+      "fullName": "BaseWeb2IdentityPayload",
+      "description": "Interface BaseWeb2IdentityPayload",
+      "properties": [],
+      "content": "\n    context: \"web2\";\n"
+    },
+    {
+      "type": "interface",
+      "name": "BasePqcIdentityPayload",
+      "fullName": "BasePqcIdentityPayload",
+      "description": "Interface BasePqcIdentityPayload",
+      "properties": [],
+      "content": "\n    context: \"pqc\";\n"
+    },
+    {
+      "type": "interface",
+      "name": "BaseUdIdentityPayload",
+      "fullName": "BaseUdIdentityPayload",
+      "description": "Interface BaseUdIdentityPayload",
+      "properties": [],
+      "content": "\n    context: \"ud\";\n"
+    },
+    {
+      "type": "interface",
+      "name": "UDIdentityPayload",
+      "fullName": "UDIdentityPayload",
+      "description": "Interface UDIdentityPayload",
+      "properties": [],
+      "content": "\n    domain: string;\n    signingAddress: string;\n    signatureType: \"evm\" | \"solana\";\n    signature: string;\n    publicKey: string;\n    signedData: string;\n    network: \"polygon\" | \"ethereum\" | \"base\" | \"sonic\" | \"solana\";\n    registryType: \"UNS\" | \"CNS\";\n    timestamp?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "UserPoints",
+      "fullName": "UserPoints",
+      "description": "Interface UserPoints",
+      "properties": [],
+      "content": "\n    userId: string;\n    referralCode: string;\n    totalPoints: number;\n    breakdown: {\n        web3Wallets: {\n            [chain: string]: number;\n        "
+    },
+    {
+      "type": "interface",
+      "name": "FindDemosIdByWeb2IdentityQuery",
+      "fullName": "FindDemosIdByWeb2IdentityQuery",
+      "description": "Interface FindDemosIdByWeb2IdentityQuery",
+      "properties": [],
+      "content": "\n    type: \"web2\";\n    context: \"twitter\" | \"telegram\" | \"github\" | \"discord\";\n    username: string;\n    userId?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "FindDemosIdByWeb3IdentityQuery",
+      "fullName": "FindDemosIdByWeb3IdentityQuery",
+      "description": "Interface FindDemosIdByWeb3IdentityQuery",
+      "properties": [],
+      "content": "\n    type: \"xm\";\n    chain: string;\n    address: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "AddressInfo",
+      "fullName": "AddressInfo",
+      "description": "Interface AddressInfo",
+      "properties": [],
+      "content": "\n    pubkey: string;\n    assignedTxs: string[];\n    identities: {\n        xm: Map<string, string[]>;\n        web2: Map<string, string[]>;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "AddressInfo",
+      "fullName": "AddressInfo",
+      "description": "Interface AddressInfo",
+      "properties": [],
+      "content": "\n    native: StatusNative | null;\n    properties: StatusProperties | null;\n"
+    },
+    {
+      "type": "interface",
+      "name": "NativeTablesHashes",
+      "fullName": "NativeTablesHashes",
+      "description": "Interface NativeTablesHashes",
+      "properties": [],
+      "content": "\n    native_gcr: string;\n    native_subnets_txs: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "BlockContent",
+      "fullName": "BlockContent",
+      "description": "Interface BlockContent",
+      "properties": [],
+      "content": "\n    ordered_transactions: string[];\n    per_address_transactions: Map<string, string[]>;\n    web2data: {"
+    },
+    {
+      "type": "interface",
+      "name": "Block",
+      "fullName": "Block",
+      "description": "Interface Block",
+      "properties": [],
+      "content": "\n    id: number;\n    number: number;\n    hash: string;\n    content: BlockContent;\n    status: \"derived\" | \"confirmed\";\n    proposer: pki.PublicKey | pki.ed25519.BinaryBuffer;\n    next_proposer?: pki.PublicKey | pki.ed25519.BinaryBuffer;\n    validation_data: any;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GenesisBlockExtra",
+      "fullName": "GenesisBlockExtra",
+      "description": "Interface GenesisBlockExtra",
+      "properties": [],
+      "content": "\n    genesisData: StandardGenesis;\n"
+    },
+    {
+      "type": "interface",
+      "name": "EncryptedTransaction",
+      "fullName": "EncryptedTransaction",
+      "description": "Interface EncryptedTransaction",
+      "properties": [],
+      "content": "\n    hash: string;\n    encryptedHash: string;\n    encryptedTransaction: string;\n    blockNumber: number;\n    L2PS: forge.pki.rsa.PublicKey;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GCREditBalance",
+      "fullName": "GCREditBalance",
+      "description": "Interface GCREditBalance",
+      "properties": [],
+      "content": "\n    type: \"balance\";\n    isRollback: boolean;\n    operation: \"add\" | \"remove\";\n    account: string;\n    amount: number;\n    txhash: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GCREditNonce",
+      "fullName": "GCREditNonce",
+      "description": "Interface GCREditNonce",
+      "properties": [],
+      "content": "\n    type: \"nonce\";\n    isRollback: boolean;\n    operation: \"add\" | \"remove\";\n    account: string;\n    amount: number;\n    txhash: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GCREditAssign",
+      "fullName": "GCREditAssign",
+      "description": "Interface GCREditAssign",
+      "properties": [],
+      "content": "\n    type: \"assign\";\n    isRollback: boolean;\n    account: string;\n    context: \"native\" | \"web2\" | \"xm\";\n    txhash: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GCREditAssignIdentity",
+      "fullName": "GCREditAssignIdentity",
+      "description": "Interface GCREditAssignIdentity",
+      "properties": [],
+      "content": "\n    type: \"identity\";\n    isRollback: boolean;\n    account: string;\n    identity: any;\n    txhash: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GCREditSubnetsTx",
+      "fullName": "GCREditSubnetsTx",
+      "description": "Interface GCREditSubnetsTx",
+      "properties": [],
+      "content": "\n    type: \"subnetsTx\";\n    isRollback: boolean;\n    account: string;\n    txhash: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "XmGCRData",
+      "fullName": "XmGCRData",
+      "description": "Interface XmGCRData",
+      "properties": [],
+      "content": "\n    chain: string;\n    subchain: string;\n    identity: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "XmGCRIdentityData",
+      "fullName": "XmGCRIdentityData",
+      "description": "Interface XmGCRIdentityData",
+      "properties": [],
+      "content": "\n    chain: string;\n    subchain: string;\n    targetAddress: string;\n    signature: string;\n    publicKey: string;\n    isEVM: boolean;\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "Web2GCRData",
+      "fullName": "Web2GCRData",
+      "description": "Interface Web2GCRData",
+      "properties": [],
+      "content": "\n    context: string;\n    data: {\n        username: string;\n        proof: string;\n        proofHash: string;\n        userId: string;\n        timestamp: number;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "PQCIdentityGCREditData",
+      "fullName": "PQCIdentityGCREditData",
+      "description": "Interface PQCIdentityGCREditData",
+      "properties": [],
+      "content": "\n    algorithm: SigningAlgorithm;\n    address: string;\n    signature: string;\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GCREditIdentity",
+      "fullName": "GCREditIdentity",
+      "description": "Interface GCREditIdentity",
+      "properties": [],
+      "content": "\n    type: \"identity\";\n    isRollback: boolean;\n    account: string;\n    context: \"xm\" | \"web2\" | \"pqc\" | \"ud\";\n    operation: \"add\" | \"remove\";\n    data: Web2GCRData | XmGCRIdentityData | XMCoreTargetIdentityPayload | PQCIdentityGCREditData[] | PqcIdentityRemovePayload[\"payload\"] | UdGCRData | {\n        domain: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "GCREditSmartContract",
+      "fullName": "GCREditSmartContract",
+      "description": "Interface GCREditSmartContract",
+      "properties": [],
+      "content": "\n    type: \"smartContract\";\n    operation: \"deploy\" | \"call\" | \"store\" | \"retrieve\";\n    account: string;\n    txhash: string;\n    isRollback: boolean;\n    code?: string;\n    deployer?: string;\n    method?: string;\n    args?: any[];\n    key?: string;\n    value?: any;\n    result?: any;\n    gasUsed?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GCREditStorageProgram",
+      "fullName": "GCREditStorageProgram",
+      "description": "Interface GCREditStorageProgram",
+      "properties": [],
+      "content": "\n    type: \"storageProgram\";\n    target: string;\n    isRollback: boolean;\n    txhash: string;\n    context: {\n        operation: string;\n        sender: string;\n        data?: {\n            variables: any;\n            metadata: any;\n        "
+    },
+    {
+      "type": "interface",
+      "name": "GCREditEscrow",
+      "fullName": "GCREditEscrow",
+      "description": "Interface GCREditEscrow",
+      "properties": [],
+      "content": "\n    type: \"escrow\";\n    operation: \"deposit\" | \"claim\" | \"refund\";\n    account: string;\n    data: {\n        sender?: string;\n        platform?: \"twitter\" | \"github\" | \"telegram\";\n        username?: string;\n        amount?: number;\n        expiryDays?: number;\n        message?: string;\n        claimant?: string;\n        claimed?: boolean;\n        claimedBy?: string;\n        claimedAt?: number;\n        refunder?: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "GenesisImmutableProperties",
+      "fullName": "GenesisImmutableProperties",
+      "description": "Interface GenesisImmutableProperties",
+      "properties": [],
+      "content": "\n    id: number;\n    name: string;\n    currency: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GenesisMutableProperties",
+      "fullName": "GenesisMutableProperties",
+      "description": "Interface GenesisMutableProperties",
+      "properties": [],
+      "content": "\n    minBlocksForValidationOnlineStatus: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "GenesisArtifact",
+      "fullName": "GenesisArtifact",
+      "description": "Interface GenesisArtifact",
+      "properties": [],
+      "content": "\n    properties: GenesisImmutableProperties;\n    mutables: GenesisMutableProperties;\n    balances: [[address: string, amount: string]];\n    timestamp: number;\n    previous_genesis_hash: string;\n    previous_block_hash: string;\n    signature: string;\n    hash: string;\n    number: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "StandardGenesis",
+      "fullName": "StandardGenesis",
+      "description": "Interface StandardGenesis",
+      "properties": [],
+      "content": "\n    properties: GenesisImmutableProperties;\n    mutables: GenesisMutableProperties;\n    balances: [[address: string, amount: string]];\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ISignature",
+      "fullName": "ISignature",
+      "description": "Interface ISignature",
+      "properties": [],
+      "content": "\n    type: SigningAlgorithm;\n    data: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "RawTransaction",
+      "fullName": "RawTransaction",
+      "description": "Interface RawTransaction",
+      "properties": [],
+      "content": "\n    id: number;\n    blockNumber: number;\n    signature: string;\n    status: string;\n    hash: string;\n    content: NonNullable<string>;\n    type: TransactionContent[\"type\"];\n    from: any;\n    to: any;\n    amount: number;\n    nonce: number;\n    timestamp: number;\n    networkFee: number;\n    rpcFee: number;\n    additionalFee: number;\n    ed25519_signature: string;\n    from_ed25519_address: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "StatusNative",
+      "fullName": "StatusNative",
+      "description": "Interface StatusNative",
+      "properties": [],
+      "content": "\n    address: string;\n    balance: number;\n    nonce: number;\n    tx_list: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "statusNative",
+      "fullName": "statusNative",
+      "description": "Interface statusNative",
+      "properties": [],
+      "content": "\n    address: string;\n    tokens: string;\n    nfts: string;\n    xm: string;\n    web2: string;\n    other: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TransactionContent",
+      "fullName": "TransactionContent",
+      "description": "Interface TransactionContent",
+      "properties": [],
+      "content": "\n    type: \"web2Request\" | \"crosschainOperation\" | \"subnet\" | \"native\" | \"demoswork\" | \"genesis\" | \"NODE_ONLINE\" | \"identity\" | \"instantMessaging\" | \"nativeBridge\" | \"l2psEncryptedTx\" | \"storage\" | \"storageProgram\" | \"l2ps_hash_update\" | \"contractDeploy\" | \"contractCall\" | \"d402_payment\" | \"escrow\" | \"ipfs\";\n    from: string;\n    from_ed25519_address: string;\n    to: string;\n    amount: number;\n    data: TransactionContentData;\n    gcr_edits: GCREdit[];\n    nonce: number;\n    timestamp: number;\n    transaction_fee: TxFee;\n"
+    },
+    {
+      "type": "interface",
+      "name": "Transaction",
+      "fullName": "Transaction",
+      "description": "Interface Transaction",
+      "properties": [],
+      "content": "\n    content: TransactionContent;\n    ed25519_signature: string;\n    signature: ISignature | null;\n    hash: string;\n    status: string;\n    blockNumber: number | null;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ContractCallPayload",
+      "fullName": "ContractCallPayload",
+      "description": "Interface ContractCallPayload",
+      "properties": [],
+      "content": "\n    contractAddress: string;\n    method: string;\n    args: any[];\n    value?: bigint;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ContractMetadata",
+      "fullName": "ContractMetadata",
+      "description": "Interface ContractMetadata",
+      "properties": [],
+      "content": "\n    name?: string;\n    description?: string;\n    version?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ContractDeployPayload",
+      "fullName": "ContractDeployPayload",
+      "description": "Interface ContractDeployPayload",
+      "properties": [],
+      "content": "\n    source: string;\n    constructorArgs: any[];\n    metadata?: ContractMetadata;\n"
+    },
+    {
+      "type": "interface",
+      "name": "D402PaymentPayload",
+      "fullName": "D402PaymentPayload",
+      "description": "Interface D402PaymentPayload",
+      "properties": [],
+      "content": "\n    /** Recipient's Demos address */\n    to: string;\n    /** Payment amount in smallest unit */\n    amount: number;\n    /** Optional memo/description for the payment */\n    memo?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "EscrowPayload",
+      "fullName": "EscrowPayload",
+      "description": "Interface EscrowPayload",
+      "properties": [],
+      "content": "\n    platform: string;\n    username: string;\n    amount?: string;\n    operation?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPFSAddPayload",
+      "fullName": "IPFSAddPayload",
+      "description": "Interface IPFSAddPayload",
+      "properties": [],
+      "content": "\n    /** The IPFS operation type */\n    operation: \"IPFS_ADD\";\n    /** Base64-encoded content to upload */\n    content: string;\n    /** Optional filename for the content */\n    filename?: string;\n    /** Optional metadata to associate with the pin */\n    metadata?: Record<string, unknown>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPFSPinPayload",
+      "fullName": "IPFSPinPayload",
+      "description": "Interface IPFSPinPayload",
+      "properties": [],
+      "content": "\n    /** The IPFS operation type */\n    operation: \"IPFS_PIN\";\n    /** Content Identifier to pin */\n    cid: string;\n    /** Optional duration in blocks (0 = indefinite) */\n    duration?: number;\n    /** Optional metadata to associate with the pin */\n    metadata?: Record<string, unknown>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPFSUnpinPayload",
+      "fullName": "IPFSUnpinPayload",
+      "description": "Interface IPFSUnpinPayload",
+      "properties": [],
+      "content": "\n    /** The IPFS operation type */\n    operation: \"IPFS_UNPIN\";\n    /** Content Identifier to unpin */\n    cid: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "L2PSHashPayload",
+      "fullName": "L2PSHashPayload",
+      "description": "Interface L2PSHashPayload",
+      "properties": [],
+      "content": "\n    /** The unique identifier of the L2PS network */\n    l2ps_uid: string;\n    /** SHA-256 hash representing all L2PS transactions for this UID */\n    consolidated_hash: string;\n    /** Number of transactions included in this hash update */\n    transaction_count: number;\n    /** Timestamp when this hash update was generated */\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "StorageProgramPayload",
+      "fullName": "StorageProgramPayload",
+      "description": "Interface StorageProgramPayload",
+      "properties": [],
+      "content": "\n    /** The storage operation to perform */\n    operation: StorageProgramOperation;\n    /** The storage program address (stor-{hash format"
+    },
+    {
+      "type": "interface",
+      "name": "StoragePayload",
+      "fullName": "StoragePayload",
+      "description": "Interface StoragePayload",
+      "properties": [],
+      "content": "\n    /** Base64-encoded binary data to be stored */\n    bytes: string;\n    /** Optional metadata associated with the storage */\n    metadata?: Record<string, any>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TxFee",
+      "fullName": "TxFee",
+      "description": "Interface TxFee",
+      "properties": [],
+      "content": "\n    network_fee: number;\n    rpc_fee: number;\n    additional_fee: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ValidityData",
+      "fullName": "ValidityData",
+      "description": "Interface ValidityData",
+      "properties": [],
+      "content": "\n    data: {\n        valid: boolean;\n        reference_block: number;\n        message: string;\n        gas_operation: Operation;\n        transaction: Transaction;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "BridgeTradePayload",
+      "fullName": "BridgeTradePayload",
+      "description": "Interface BridgeTradePayload",
+      "properties": [],
+      "content": "\n    fromToken: \"NATIVE\" | \"USDC\" | \"USDT\";\n    toToken: \"NATIVE\" | \"USDC\" | \"USDT\";\n    amount: number;\n    fromChainId: number;\n    toChainId: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "demosStepContent",
+      "fullName": "demosStepContent",
+      "description": "Interface demosStepContent",
+      "properties": [],
+      "content": "\n    workUID: string;\n    type: demosStepType;\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "demosStep",
+      "fullName": "demosStep",
+      "description": "Interface demosStep",
+      "properties": [],
+      "content": "\n    content: demosStepContent;\n    signature: forge.pki.ed25519.BinaryBuffer;\n"
+    },
+    {
+      "type": "interface",
+      "name": "demosWork",
+      "fullName": "demosWork",
+      "description": "Interface demosWork",
+      "properties": [],
+      "content": "\n    workUID: string;\n    steps: demosStep[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "demosStepResult",
+      "fullName": "demosStepResult",
+      "description": "Interface demosStepResult",
+      "properties": [],
+      "content": "\n    workUID: string;\n    result: {\n        timestamp: number;\n        result: any;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "demosResult",
+      "fullName": "demosResult",
+      "description": "Interface demosResult",
+      "properties": [],
+      "content": "\n    workUID: string;\n    workHash: string;\n    results: any[];\n    resultsHash: string;\n    signature: forge.pki.ed25519.BinaryBuffer;\n"
+    },
+    {
+      "type": "interface",
+      "name": "RPCRequest",
+      "fullName": "RPCRequest",
+      "description": "Interface RPCRequest",
+      "properties": [],
+      "content": "\n    method: string;\n    params: any[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "RPCResponse",
+      "fullName": "RPCResponse",
+      "description": "Interface RPCResponse",
+      "properties": [],
+      "content": "\n    result: number;\n    response: any;\n    require_reply: boolean;\n    extra: any;\n"
+    },
+    {
+      "type": "interface",
+      "name": "BrowserRequest",
+      "fullName": "BrowserRequest",
+      "description": "Interface BrowserRequest",
+      "properties": [],
+      "content": "\n    message: string;\n    data: any;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ConsensusRequest",
+      "fullName": "ConsensusRequest",
+      "description": "Interface ConsensusRequest",
+      "properties": [],
+      "content": "\n    message: string;\n    sender: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "NodeCall",
+      "fullName": "NodeCall",
+      "description": "Interface NodeCall",
+      "properties": [],
+      "content": "\n    message: string;\n    data: any;\n    muid: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "HelloPeerRequest",
+      "fullName": "HelloPeerRequest",
+      "description": "Interface HelloPeerRequest",
+      "properties": [],
+      "content": "\n    url: string;\n    port: number;\n    publicKey: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "BundleContent",
+      "fullName": "BundleContent",
+      "description": "Interface BundleContent",
+      "properties": [],
+      "content": "\n    type: string;\n    message: string;\n    sender: any;\n    receiver: any;\n    timestamp: number;\n    data: any;\n    extra: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "Bundle",
+      "fullName": "Bundle",
+      "description": "Interface Bundle",
+      "properties": [],
+      "content": "\n    content: BundleContent;\n    hash: string;\n    signature: any;\n"
+    },
+    {
+      "type": "interface",
+      "name": "DemoScript",
+      "fullName": "DemoScript",
+      "description": "Interface DemoScript",
+      "properties": [],
+      "content": "\n    operationOrder: Set<string>;\n    operations: {\n        [key: string]: DemosWorkOperationScripts;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "OperationScript",
+      "fullName": "OperationScript",
+      "description": "Interface OperationScript",
+      "properties": [],
+      "content": "\n    id: string;\n    operationType: OperationType;\n    critical: boolean;\n    depends_on: string[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "OperationOutputKey",
+      "fullName": "OperationOutputKey",
+      "description": "Interface OperationOutputKey",
+      "properties": [],
+      "content": "\n    type: DataTypes.work;\n    src: {\n        self: DemosWorkOperation;\n        key: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "StepOutputKey",
+      "fullName": "StepOutputKey",
+      "description": "Interface StepOutputKey",
+      "properties": [],
+      "content": "\n    type: DataTypes.work;\n    src: {\n        self: WorkStep;\n        key: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "Account",
+      "fullName": "Account",
+      "description": "Interface Account",
+      "properties": [],
+      "content": "\n    pubkey: string;\n    assignedTxs: string[];\n    nonce: number;\n    balance: string;\n    identities: AccountIdentities;\n    points: AccountPoints;\n    referralInfo: ReferralInfo;\n    flagged: boolean;\n    flaggedReason: string;\n    reviewed: boolean;\n    createdAt: string;\n    updatedAt: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "AccountIdentities",
+      "fullName": "AccountIdentities",
+      "description": "Interface AccountIdentities",
+      "properties": [],
+      "content": "\n    xm: XMIdentities;\n    pqc: Record<string, never>;\n    web2: Web2Identities;\n"
+    },
+    {
+      "type": "interface",
+      "name": "XMIdentities",
+      "fullName": "XMIdentities",
+      "description": "Interface XMIdentities",
+      "properties": [],
+      "content": "\n    evm: ChainIdentities;\n    solana: ChainIdentities;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ChainIdentities",
+      "fullName": "ChainIdentities",
+      "description": "Interface ChainIdentities",
+      "properties": [],
+      "content": "\n    mainnet: IdentityLink[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "IdentityLink",
+      "fullName": "IdentityLink",
+      "description": "Interface IdentityLink",
+      "properties": [],
+      "content": "\n    address: string;\n    publicKey: string;\n    signature: string;\n    timestamp: number;\n    signedData: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "Web2Identities",
+      "fullName": "Web2Identities",
+      "description": "Interface Web2Identities",
+      "properties": [],
+      "content": "\n    twitter: TwitterIdentity[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "TwitterIdentity",
+      "fullName": "TwitterIdentity",
+      "description": "Interface TwitterIdentity",
+      "properties": [],
+      "content": "\n    proof: string;\n    userId: string;\n    username: string;\n    proofHash: string;\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "AccountPoints",
+      "fullName": "AccountPoints",
+      "description": "Interface AccountPoints",
+      "properties": [],
+      "content": "\n    breakdown: PointsBreakdown;\n    lastUpdated: string;\n    totalPoints: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "PointsBreakdown",
+      "fullName": "PointsBreakdown",
+      "description": "Interface PointsBreakdown",
+      "properties": [],
+      "content": "\n    referrals: number;\n    web3Wallets: Web3WalletPoints;\n    socialAccounts: SocialAccountPoints;\n"
+    },
+    {
+      "type": "interface",
+      "name": "Web3WalletPoints",
+      "fullName": "Web3WalletPoints",
+      "description": "Interface Web3WalletPoints",
+      "properties": [],
+      "content": "\n    evm: number;\n    solana: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SocialAccountPoints",
+      "fullName": "SocialAccountPoints",
+      "description": "Interface SocialAccountPoints",
+      "properties": [],
+      "content": "\n    github: number;\n    discord: number;\n    twitter: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "ReferralInfo",
+      "fullName": "ReferralInfo",
+      "description": "Interface ReferralInfo",
+      "properties": [],
+      "content": "\n    referrals: string[];\n    referredBy: string;\n    referralCode: string;\n    totalReferrals: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "Operation",
+      "fullName": "Operation",
+      "description": "Interface Operation",
+      "properties": [],
+      "content": "\n    operator: string;\n    actor: string;\n    params: any;\n    hash: string;\n    nonce: number;\n    timestamp: number;\n    status: boolean | 'pending';\n    fees: TxFee;\n"
+    },
+    {
+      "type": "interface",
+      "name": "OperationResult",
+      "fullName": "OperationResult",
+      "description": "Interface OperationResult",
+      "properties": [],
+      "content": "\n    success: boolean;\n    message: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "OperationRegistrySlot",
+      "fullName": "OperationRegistrySlot",
+      "description": "Interface OperationRegistrySlot",
+      "properties": [],
+      "content": "\n    operation: Operation;\n    status: boolean | 'pending';\n    result: OperationResult;\n    timestamp: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "StateChange",
+      "fullName": "StateChange",
+      "description": "Interface StateChange",
+      "properties": [],
+      "content": "\n    sender: forge.pki.ed25519.BinaryBuffer;\n    receiver: forge.pki.ed25519.BinaryBuffer;\n    nativeAmount: number;\n    tx_hash: string;\n    token: TokenTransfer;\n    nft: NFTTransfer;\n"
+    },
+    {
+      "type": "interface",
+      "name": "InstantMessagingPayload",
+      "fullName": "InstantMessagingPayload",
+      "description": "Interface InstantMessagingPayload",
+      "properties": [],
+      "content": "\n    type: \"instantMessaging\";\n    data: {\n        targetId: string;\n        senderId: string;\n        messageHash: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "ExecutionResult",
+      "fullName": "ExecutionResult",
+      "description": "Interface ExecutionResult",
+      "properties": [],
+      "content": "\n    success: boolean;\n    response: any;\n    extra: any;\n    require_reply: boolean;\n    operations?: Operation[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "ISecurityReport",
+      "fullName": "ISecurityReport",
+      "description": "Interface ISecurityReport",
+      "properties": [],
+      "content": "\n    state: boolean;\n    code: string;\n    message: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SIResponseRegistry",
+      "fullName": "SIResponseRegistry",
+      "description": "Interface SIResponseRegistry",
+      "properties": [],
+      "content": "\n    prune_interval: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SIComlink",
+      "fullName": "SIComlink",
+      "description": "Interface SIComlink",
+      "properties": [],
+      "content": "\n    rate_limit_size: number;\n    rate_limit_time: number;\n    rate_limit_bin: number;\n    rate_limit_timestamp: number;\n    checkRateLimits: Function;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPeerConfig",
+      "fullName": "IPeerConfig",
+      "description": "Interface IPeerConfig",
+      "properties": [],
+      "content": "\n    connectionString?: string;\n    socket?: Socket;\n    identity?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IPeer",
+      "fullName": "IPeer",
+      "description": "Interface IPeer",
+      "properties": [],
+      "content": "\n    connection: {\n        string: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "IParam",
+      "fullName": "IParam",
+      "description": "Interface IParam",
+      "properties": [],
+      "content": "\n    name: string;\n    value: any;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IWeb2Result",
+      "fullName": "IWeb2Result",
+      "description": "Interface IWeb2Result",
+      "properties": [],
+      "content": "\n    status: number;\n    statusText: string;\n    headers: IncomingHttpHeaders;\n    data: any;\n    responseHash: string;\n    responseHeadersHash: string;\n    requestHash?: string;\n    txHash?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IWeb2Request",
+      "fullName": "IWeb2Request",
+      "description": "Interface IWeb2Request",
+      "properties": [],
+      "content": "\n    raw: IRawWeb2Request;\n    result: any;\n    hash: string;\n    signature?: {\n        type: SigningAlgorithm;\n        data: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "IWeb2Payload",
+      "fullName": "IWeb2Payload",
+      "description": "Interface IWeb2Payload",
+      "properties": [],
+      "content": "\n    message: {\n        sessionId: string;\n        payload: unknown;\n        authorization: any;\n        web2Request: IWeb2Request;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "IRawWeb2Request",
+      "fullName": "IRawWeb2Request",
+      "description": "Interface IRawWeb2Request",
+      "properties": [],
+      "content": "\n    action: EnumWeb2Actions;\n    parameters: IParam[];\n    method: Web2Method;\n    url: string;\n    headers?: OutgoingHttpHeaders;\n    stage: {\n        origin: {\n            identity: forge.pki.ed25519.BinaryBuffer;\n            connection_url: string;\n        "
+    },
+    {
+      "type": "interface",
+      "name": "ISendHTTPRequestParams",
+      "fullName": "ISendHTTPRequestParams",
+      "description": "Interface ISendHTTPRequestParams",
+      "properties": [],
+      "content": "\n    web2Request: IWeb2Request;\n    targetMethod: Web2Method;\n    targetHeaders: OutgoingHttpHeaders;\n    payload: unknown;\n    targetAuthorization: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IAuthorizationException",
+      "fullName": "IAuthorizationException",
+      "description": "Interface IAuthorizationException",
+      "properties": [],
+      "content": "\n    urlPattern: RegExp;\n    methods: Web2Method[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "IAuthorizationConfig",
+      "fullName": "IAuthorizationConfig",
+      "description": "Interface IAuthorizationConfig",
+      "properties": [],
+      "content": "\n    requireAuthForAll: boolean;\n    exceptions: IAuthorizationException[];\n    authTimeout?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IWeb2RequestOptions",
+      "fullName": "IWeb2RequestOptions",
+      "description": "Interface IWeb2RequestOptions",
+      "properties": [],
+      "content": "\n    headers?: OutgoingHttpHeaders;\n    payload?: unknown;\n    authorization?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IStartProxyParams",
+      "fullName": "IStartProxyParams",
+      "description": "Interface IStartProxyParams",
+      "properties": [],
+      "content": "\n    url: string;\n    method: Web2Method;\n    options?: IWeb2RequestOptions;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IDAHRStartProxyParams",
+      "fullName": "IDAHRStartProxyParams",
+      "description": "Interface IDAHRStartProxyParams",
+      "properties": [],
+      "content": "\n    url: string;\n    method: Web2Method;\n    headers: OutgoingHttpHeaders;\n    payload?: IWeb2RequestOptions[\"payload\"];\n    authorization?: IWeb2RequestOptions[\"authorization\"];\n"
+    },
+    {
+      "type": "interface",
+      "name": "TelegramChallengeRequest",
+      "fullName": "TelegramChallengeRequest",
+      "description": "Interface TelegramChallengeRequest",
+      "properties": [],
+      "content": "\n    /** The Demos address requesting verification */\n    demos_address: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TelegramChallengeResponse",
+      "fullName": "TelegramChallengeResponse",
+      "description": "Interface TelegramChallengeResponse",
+      "properties": [],
+      "content": "\n    /** The challenge string that must be signed by the user's wallet */\n    challenge: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TelegramVerificationResponse",
+      "fullName": "TelegramVerificationResponse",
+      "description": "Interface TelegramVerificationResponse",
+      "properties": [],
+      "content": "\n    /** Whether the verification was successful */\n    success: boolean;\n    /** Human-readable message describing the result */\n    message: string;\n    /** The verified Demos address (only present on success) */\n    demosAddress?: string;\n    /** The verified Telegram identity data (only present on success) */\n    telegramData?: {\n        userId: string;\n        username: string;\n        timestamp: number;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "TelegramUser",
+      "fullName": "TelegramUser",
+      "description": "Interface TelegramUser",
+      "properties": [],
+      "content": "\n    /** Telegram user ID (unique identifier) */\n    id: string;\n    /** Telegram username (optional, can be changed by user) */\n    username?: string;\n    /** User's first name */\n    first_name: string;\n    /** User's last name (optional) */\n    last_name?: string;\n    /** Whether this user is a bot */\n    is_bot: boolean;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TelegramVerificationRequest",
+      "fullName": "TelegramVerificationRequest",
+      "description": "Interface TelegramVerificationRequest",
+      "properties": [],
+      "content": "\n    /** Telegram user ID from message context */\n    telegram_id: string;\n    /** Telegram username (optional) */\n    username: string;\n    /** User's signature of the challenge */\n    signed_challenge: string;\n    /** Unix timestamp of attestation creation */\n    timestamp: number;\n    /** Bot's Demos address (must be from genesis) */\n    bot_address: string;\n    /** Bot's signature of the entire attestation */\n    bot_signature: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TwitterUser",
+      "fullName": "TwitterUser",
+      "description": "Interface TwitterUser",
+      "properties": [],
+      "content": "\n    rest_id: string;\n    name: string;\n    screen_name: string;\n    avatar?: string;\n    blue_verified: boolean;\n    image?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "MediaSize",
+      "fullName": "MediaSize",
+      "description": "Interface MediaSize",
+      "properties": [],
+      "content": "\n    h: number;\n    w: number;\n    resize?: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "MediaSizes",
+      "fullName": "MediaSizes",
+      "description": "Interface MediaSizes",
+      "properties": [],
+      "content": "\n    large: MediaSize;\n    medium: MediaSize;\n    small: MediaSize;\n    thumb: MediaSize;\n"
+    },
+    {
+      "type": "interface",
+      "name": "VideoVariant",
+      "fullName": "VideoVariant",
+      "description": "Interface VideoVariant",
+      "properties": [],
+      "content": "\n    content_type: string;\n    url: string;\n    bitrate?: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "VideoInfo",
+      "fullName": "VideoInfo",
+      "description": "Interface VideoInfo",
+      "properties": [],
+      "content": "\n    aspect_ratio: number[];\n    duration_millis?: number;\n    variants: VideoVariant[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "MediaItem",
+      "fullName": "MediaItem",
+      "description": "Interface MediaItem",
+      "properties": [],
+      "content": "\n    media_url_https: string;\n    id: string;\n    sizes?: MediaSizes;\n    variants?: VideoVariant[];\n    aspect_ratio?: number[];\n    original_info?: {\n        height: number;\n        width: number;\n        focus_rects?: any[];\n    "
+    },
+    {
+      "type": "interface",
+      "name": "Media",
+      "fullName": "Media",
+      "description": "Interface Media",
+      "properties": [],
+      "content": "\n    photo?: MediaItem[];\n    video?: MediaItem[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "TweetEntities",
+      "fullName": "TweetEntities",
+      "description": "Interface TweetEntities",
+      "properties": [],
+      "content": "\n    hashtags: any[];\n    symbols: any[];\n    timestamps: any[];\n    urls: any[];\n    user_mentions: Array<{\n        id_str: string;\n        name: string;\n        screen_name: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "Tweet",
+      "fullName": "Tweet",
+      "description": "Interface Tweet",
+      "properties": [],
+      "content": "\n    tweet_id: string;\n    bookmarks: number;\n    created_at: string;\n    favorites: number;\n    text: string;\n    lang: string;\n    views: string;\n    quotes: number;\n    replies: number;\n    retweets: number;\n    conversation_id: string;\n    media: Media;\n    author: TwitterUser;\n    entities?: TweetEntities;\n    quoted?: Tweet;\n    retweeted?: {\n        id: string;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "UserAffiliates",
+      "fullName": "UserAffiliates",
+      "description": "Interface UserAffiliates",
+      "properties": [],
+      "content": "\n    label: {\n        url: {\n            url: string;\n            urlType: string;\n        "
+    },
+    {
+      "type": "interface",
+      "name": "TwitterProfile",
+      "fullName": "TwitterProfile",
+      "description": "Interface TwitterProfile",
+      "properties": [],
+      "content": "\n    status: string;\n    profile: string;\n    rest_id: string;\n    blue_verified: boolean;\n    affiliates: UserAffiliates;\n    business_account: any[];\n    avatar: string;\n    header_image: string;\n    desc: string;\n    name: string;\n    protected: boolean | null;\n    location: string;\n    friends: number;\n    sub_count: number;\n    statuses_count: number;\n    media_count: number;\n    created_at: string;\n    pinned_tweet_ids_str: string[];\n    id: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TwitterTimelineResponse",
+      "fullName": "TwitterTimelineResponse",
+      "description": "Interface TwitterTimelineResponse",
+      "properties": [],
+      "content": "\n    pinned: Tweet;\n    timeline: Tweet[];\n    next_cursor: string;\n    prev_cursor: string;\n    status: string;\n    user: TwitterProfile;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TweetSimplified",
+      "fullName": "TweetSimplified",
+      "description": "Interface TweetSimplified",
+      "properties": [],
+      "content": "\n    id: string;\n    created_at: string;\n    text: string;\n    username: string;\n    userId: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TwitterFollower",
+      "fullName": "TwitterFollower",
+      "description": "Interface TwitterFollower",
+      "properties": [],
+      "content": "\n    user_id: string;\n    screen_name: string;\n    description: string;\n    profile_image: string;\n    statuses_count: number;\n    followers_count: number;\n    friends_count: number;\n    media_count: number;\n    name: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "TwitterFollowersResponse",
+      "fullName": "TwitterFollowersResponse",
+      "description": "Interface TwitterFollowersResponse",
+      "properties": [],
+      "content": "\n    followers: TwitterFollower[];\n    next_cursor: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SolNativeTransfer",
+      "fullName": "SolNativeTransfer",
+      "description": "Interface SolNativeTransfer",
+      "properties": [],
+      "content": "\n    fromUserAccount: string;\n    toUserAccount: string;\n    amount: number;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SolTokenBalanceChange",
+      "fullName": "SolTokenBalanceChange",
+      "description": "Interface SolTokenBalanceChange",
+      "properties": [],
+      "content": "\n    [key: string]: any;\n"
+    },
+    {
+      "type": "interface",
+      "name": "SolAccountData",
+      "fullName": "SolAccountData",
+      "description": "Interface SolAccountData",
+      "properties": [],
+      "content": "\n    account: string;\n    nativeBalanceChange: number;\n    tokenBalanceChanges: SolTokenBalanceChange[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "SolInstruction",
+      "fullName": "SolInstruction",
+      "description": "Interface SolInstruction",
+      "properties": [],
+      "content": "\n    accounts: string[];\n    data: string;\n    programId: string;\n    innerInstructions: any[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "SolTransaction",
+      "fullName": "SolTransaction",
+      "description": "Interface SolTransaction",
+      "properties": [],
+      "content": "\n    description: string;\n    type: string;\n    source: string;\n    fee: number;\n    feePayer: string;\n    signature: string;\n    slot: number;\n    timestamp: number;\n    tokenTransfers: any[];\n    nativeTransfers: SolNativeTransfer[];\n    accountData: SolAccountData[];\n    transactionError: any | null;\n    instructions: SolInstruction[];\n    events: Record<string, any>;\n"
+    },
+    {
+      "type": "interface",
+      "name": "EthTransaction",
+      "fullName": "EthTransaction",
+      "description": "Interface EthTransaction",
+      "properties": [],
+      "content": "\n    blockNumber: string;\n    timeStamp: string;\n    hash: string;\n    nonce: string;\n    blockHash: string;\n    transactionIndex: string;\n    from: string;\n    to: string;\n    value: string;\n    gas: string;\n    gasPrice: string;\n    isError: string;\n    txreceipt_status: string;\n    input: string;\n    contractAddress: string;\n    cumulativeGasUsed: string;\n    gasUsed: string;\n    confirmations: string;\n    methodId: string;\n    functionName: string;\n"
+    },
+    {
+      "type": "interface",
+      "name": "EthTransactionResponse",
+      "fullName": "EthTransactionResponse",
+      "description": "Interface EthTransactionResponse",
+      "properties": [],
+      "content": "\n    status: string;\n    message: string;\n    result: EthTransaction[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "ITask",
+      "fullName": "ITask",
+      "description": "Interface ITask",
+      "properties": [],
+      "content": "\n    type: string;\n    params: any;\n    signedPayloads: any[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "IOperation",
+      "fullName": "IOperation",
+      "description": "Interface IOperation",
+      "properties": [],
+      "content": "\n    chain: string;\n    subchain: string;\n    is_evm: boolean;\n    rpc: string;\n    task: ITask;\n"
+    },
+    {
+      "type": "interface",
+      "name": "XMScript",
+      "fullName": "XMScript",
+      "description": "Interface XMScript",
+      "properties": [],
+      "content": "\n    operations: {\n        [key: string]: IOperation;\n    "
+    },
+    {
+      "type": "interface",
+      "name": "IBufferized",
+      "fullName": "IBufferized",
+      "description": "Interface IBufferized",
+      "properties": [],
+      "content": "\n    type: string;\n    data: number[];\n"
+    },
+    {
+      "type": "interface",
+      "name": "IKeyPair",
+      "fullName": "IKeyPair",
+      "description": "Interface IKeyPair",
+      "properties": [],
+      "content": "\n    privateKey: Buffer | Uint8Array;\n    publicKey: Buffer | Uint8Array;\n"
+    },
+    {
+      "type": "interface",
+      "name": "IStringifiedKeyPair",
+      "fullName": "IStringifiedKeyPair",
+      "description": "Interface IStringifiedKeyPair",
+      "properties": [],
+      "content": "\n    privateKey: string;\n    publicKey: string;\n"
+    }
+  ],
+  "functions": [],
+  "enums": [],
+  "types": [],
+  "variables": []
+}
