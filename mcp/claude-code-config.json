@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "demos-network": {
+      "command": "node",
+      "args": [
+        "PATH_TO_STARTER_KIT/mcp/demos-mcp-server.js"
+      ],
+      "env": {
+        "DEMOS_RPC_URL": "https://rpc.demos.network",
+        "XRPL_NETWORK": "wss://s.altnet.rippletest.net:51233"
+      }
+    }
+  }
+}

@@ -32,6 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "@kynesyslabs/demosdk": "^2.0.4",
+    "@modelcontextprotocol/sdk": "^0.5.0",
     "dotenv": "^16.4.7",
     "chalk": "^4.1.2",
     "inquirer": "^8.2.5",
